@@ -1,0 +1,148 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>MDCrypt</title>
+		<style>
+			html{margin:0}
+			* {
+				outline:0;
+				font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+				font-weight: 300;
+				background: #000;
+				color: #fff
+			}
+			h1 {text-align: center}
+			textarea{
+				display: inline;
+				border: 1px solid #555;
+				font-size: 24px;
+				background-color: initial;
+				padding: 7px;
+				height: 128px;
+				margin-bottom: initial;
+			}
+			textarea:focus{
+				border: 1px solid #888;
+			}
+			button{
+				user-select: none;
+				cursor: pointer;
+				border-top: 1px solid #888;
+				border-right: 1px solid #333;
+				border-bottom: 1px solid #333;
+				border-left: 1px solid #888;
+			}
+			button:active{
+				border-top: 1px solid #333;
+				border-right: 1px solid #888;
+				border-bottom: 1px solid #888;
+				border-left: 1px solid #333;
+			}
+			input {
+				border-top: 1px solid #333;
+				border-right: 1px solid #888;
+				border-bottom: 1px solid #888;
+				border-left: 1px solid #333;
+			}
+			.en{
+				margin-bottom: 100px;
+			}
+			.de{
+				margin-bottom: 10px;
+			}
+			.mdblock {
+				width: 100%;
+				padding-right: 15px;
+				padding-left: 15px;
+				margin-right: auto;
+				margin-left: auto;
+			}
+
+			@media (min-width: 576px) {
+				.mdblock {
+					max-width: 540px;
+				}
+			}
+
+			@media (min-width: 768px) {
+				.mdblock {
+					max-width: 720px;
+				}
+			}
+
+			@media (min-width: 992px) {
+				.mdblock {
+					max-width: 960px;
+				}
+			}
+
+			@media (min-width: 1200px) {
+				.mdblock {
+					max-width: 1140px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mdblock">
+		<h1>MDCrypt</h1>
+		<div class="en">
+		<h2>Encrypt</h2>
+		<textarea style="width: calc(50% - 3px); height: 250px" id="input"></textarea>
+		<textarea style="width: calc(50% - 2px); height: 250px" id="output" disabled></textarea>
+		<input id="enkey" placeholder="key">
+		<button onclick="encrypt()">Encrypt</button>
+		</div>
+		<div class="de">
+		<h2>Decrypt</h2>
+		<textarea style="width: calc(50% - 3px); height: 250px" id="input2"></textarea>
+		<textarea style="width: calc(50% - 2px); height: 250px" id="output2" disabled></textarea>
+		<input id="dekey" placeholder="key">
+		<button onclick="decrypt()">Decrypt</button
+		</div>
+		</div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			var input = document.getElementById("input");
+			var output = document.getElementById("output");
+			function encrypt(){
+				var data = {
+					'key' : document.getElementById("enkey").value,
+					'data' : input.value
+				};
+				$.ajax({
+				  url: "https://midelight.net/mdcrypt.php",
+				  type: "post",
+				  data: data,
+				  success: function (response) {
+					output.value = response;
+				  },
+				  error: function(response) {
+					output.value = response;
+				  }
+				});
+			}
+			var input2 = document.getElementById("input2");
+			var output2 = document.getElementById("output2");
+			function decrypt(){
+				var data = {
+					'key' : document.getElementById("dekey").value,
+					'data' : input2.value,
+					'decrypt' : '1'
+				};
+				$.ajax({
+				  url: "https://midelight.net/mdcrypt.php",
+				  type: "post",
+				  data: data,
+				  success: function (response) {
+					output2.value = response;
+				  },
+				  error: function(response) {
+					output2.value = response;
+				  }
+				});
+			}
+		</script>
+	</body>
+</html>
